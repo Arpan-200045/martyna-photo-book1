@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hope You Also Miss Me This Weekend</title>
+  <title>Our Memories</title>
   <style>
     :root {
       --bg: #fff7fb;
@@ -18,6 +18,7 @@
       --white: rgba(255,255,255,0.84);
       --shadow: 0 18px 40px rgba(138, 92, 112, 0.16);
       --radius: 28px;
+      --gold: #d8b46b;
     }
 
     * { box-sizing: border-box; }
@@ -437,6 +438,88 @@
       font-size: 1.2rem;
     }
 
+    .cover-page {
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.55), transparent 30%),
+        linear-gradient(160deg, rgba(255,245,249,0.95), rgba(255,239,245,0.9));
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .cover-title {
+      font-size: clamp(2.6rem, 5vw, 4.5rem);
+      line-height: 1.02;
+      margin: 0 0 14px;
+      color: var(--rose-deep);
+      max-width: 8ch;
+    }
+
+    .cover-subtitle {
+      font-size: 1.08rem;
+      line-height: 1.8;
+      max-width: 34ch;
+      margin: 0;
+    }
+
+    .cover-right {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background:
+        linear-gradient(180deg, rgba(255,252,253,0.9), rgba(255,243,248,0.92));
+    }
+
+    .chapter-page {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      background:
+        radial-gradient(circle at top right, rgba(255, 221, 233, 0.55), transparent 35%),
+        linear-gradient(180deg, rgba(255,250,252,0.92), rgba(255,242,247,0.9));
+    }
+
+    .chapter-number {
+      font-size: 0.95rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--coffee);
+      margin-bottom: 14px;
+    }
+
+    .chapter-title {
+      font-size: clamp(2.4rem, 4.5vw, 4rem);
+      line-height: 1;
+      margin: 0 0 16px;
+      color: var(--rose-deep);
+    }
+
+    .chapter-text {
+      font-size: 1.04rem;
+      line-height: 1.8;
+      max-width: 34ch;
+      margin: 0;
+    }
+
+    .chapter-decor {
+      font-size: clamp(3rem, 6vw, 5rem);
+      opacity: 0.85;
+      margin-top: 18px;
+    }
+
+    .placeholder-box {
+      border: 2px dashed rgba(184, 77, 105, 0.25);
+      border-radius: 24px;
+      padding: 22px;
+      background: rgba(255,255,255,0.55);
+      margin-top: 18px;
+      line-height: 1.8;
+      color: rgba(79,57,69,0.82);
+    }
+
     @media (max-width: 980px) {
       .book-shell {
         grid-template-columns: 1fr;
@@ -464,15 +547,19 @@
       .page {
         padding: 24px 18px 40px;
       }
-      .spread-title {
-        font-size: clamp(1.45rem, 8vw, 2rem);
+      .spread-title,
+      .chapter-title,
+      .cover-title {
+        font-size: clamp(1.8rem, 8vw, 2.5rem);
         max-width: 100%;
       }
       .spread-text,
       .caption,
       .note-card,
       .small-list,
-      .quote {
+      .quote,
+      .chapter-text,
+      .cover-subtitle {
         font-size: 0.95rem;
         line-height: 1.65;
         max-width: 100%;
@@ -507,10 +594,10 @@
 
   <main class="app">
     <div class="top-title">
-      <div class="eyebrow">A page-by-page little love book for Martyna ✨</div>
-      <h1>Hope You Also <span class="accent">Miss Me</span> This Weekend</h1>
+      <div class="eyebrow">A page-by-page little love book ✨</div>
+      <h1><span class="accent">Our Memories</span></h1>
       <p class="subtitle">
-        A flipping photo book for the Saturday in Rotterdam — coffee, piercing, park, momo, beautiful memory and all the little reasons I am already missing you.
+        A scrapbook of chapters, cities, and moments worth keeping.
       </p>
     </div>
 
@@ -518,7 +605,59 @@
       <button class="nav-btn" id="prevBtn" type="button" aria-label="Previous spread">❮</button>
 
       <div class="book">
+
+        <!-- MAIN COVER PAGE -->
         <div class="spread active">
+          <div class="page left cover-page">
+            <span class="spread-tag">Memory Book</span>
+            <h2 class="cover-title">Our Memories</h2>
+            <p class="cover-subtitle">
+              A little book made of moments, cities, smiles, and the days that stayed longer in the heart than they were supposed to.
+            </p>
+            <div class="chips">
+              <span class="chip">📖 personal archive</span>
+              <span class="chip">🤍 chapters together</span>
+              <span class="chip">📍 Rotterdam & Delft</span>
+            </div>
+            <div class="page-num"></div>
+          </div>
+          <div class="page right cover-right">
+            <div class="photo-frame tall flat" style="max-width: 420px;">
+              <img src="images/photo00.jpg" alt="Main cover memory" class="zoomable" />
+              <div class="caption">
+                <strong>TSomething forever</strong>
+                A teeny tiny place to keep the memories that felt too good to disappear forever.
+              </div>
+            </div>
+            <div class="page-num"></div>
+          </div>
+        </div>
+
+        <!-- CHAPTER 1 COVER -->
+        <div class="spread">
+          <div class="page left chapter-page">
+            <div class="chapter-number">Chapter 1</div>
+            <h2 class="chapter-title">Rotterdam Chapter</h2>
+            <p class="chapter-text">
+              The chapter of coffee, piercing, park moments, laughter, momo, and the kind of Saturday that turns into something worth revisiting.
+            </p>
+            <div class="chapter-decor">🌹 ☕ ✨</div>
+            <div class="page-num"></div>
+          </div>
+          <div class="page right cover-right">
+            <div class="photo-frame tall flat" style="max-width: 420px;">
+              <img src="images/photo0.jpg" alt="Rotterdam chapter cover" class="zoomable" />
+              <div class="caption">
+                <strong>Rotterdam memories</strong>
+                A city chapter that became more about you than the city itself.
+              </div>
+            </div>
+            <div class="page-num"></div>
+          </div>
+        </div>
+
+        <!-- ROTTERDAM CONTENT STARTS -->
+        <div class="spread">
           <div class="page left">
             <span class="flower-corner flower-top-left">🌹</span>
             <span class="spread-tag">Cover page</span>
@@ -532,8 +671,7 @@
               <span class="chip">✨ Piercing day</span>
               <span class="chip">🌸 Roses & lilies</span>
             </div>
-           
-            <div class="page-num">01</div>
+            <div class="page-num"></div>
           </div>
           <div class="page right">
             <div class="photo-frame tall">
@@ -543,7 +681,7 @@
                 This is where I keep replaying the day, because some memories are too warm to leave behind that quickly.
               </div>
             </div>
-            <div class="page-num">02</div>
+            <div class="page-num"></div>
           </div>
         </div>
 
@@ -564,42 +702,42 @@
                 <div class="caption"><strong>City mood</strong>Somehow even the streets felt more romantic.</div>
               </div>
             </div>
-            <div class="page-num">03</div>
+            <div class="page-num"></div>
           </div>
           <div class="page right">
             <span class="flower-corner flower-top-right">🤍</span>
             <span class="spread-tag">Little details</span>
             <p class="quote">“Some people turn a normal day into a memory.”</p>
             <ul class="small-list">
-              <li>From the moment i saw you i didnt care about the city but only you.</li>
+              <li>From the moment I saw you, I did not care about the city but only you.</li>
               <li>The tiny moments that now feel bigger than the planned ones.</li>
               <li>The beginning of me already knowing I would miss this later.</li>
             </ul>
             <div class="note-card">
-              My first visit to rotterdam was special thanks to you partner 🤍🤍🤍.
+              My first visit to Rotterdam was special thanks to you, partner 🤍🤍🤍.
             </div>
-            <div class="page-num">04</div>
+            <div class="page-num"></div>
           </div>
         </div>
 
         <div class="spread">
           <div class="page left">
             <span class="spread-tag">Piercing</span>
-            <h2 class="spread-title">Then Marti decides to be a little more spontaneous </h2>
+            <h2 class="spread-title">Then Marti decides to be a little more spontaneous</h2>
             <p class="spread-text">
-               Dates are supposed to be simple, but somehow sitting there with you waiting to get pierced was just beautiful.More than the piercing i liked the company.
+              Dates are supposed to be simple, but somehow sitting there with you waiting to get pierced was just beautiful. More than the piercing, I liked the company.
             </p>
             <div class="mini-grid">
               <div class="photo-frame flat">
-                <img src="images/photo3.jpg" alt="Coffee together" class="zoomable" />
-                <div class="caption"><strong>Nervous martyna</strong> you looked preety before.</div>
+                <img src="images/photo3.jpg" alt="Before the piercing" class="zoomable" />
+                <div class="caption"><strong>Nervous Martyna</strong>You looked pretty before.</div>
               </div>
               <div class="photo-frame slim">
-                <img src="images/photo4.jpg" alt="Sweet moment during coffee" class="zoomable" />
-                <div class="caption"><strong>Badass martyna</strong>now you look preety badass.</div>
+                <img src="images/photo4.jpg" alt="After the piercing" class="zoomable" />
+                <div class="caption"><strong>Badass Martyna</strong>Now you look pretty badass.</div>
               </div>
             </div>
-            <div class="page-num">05</div>
+            <div class="page-num"></div>
           </div>
           <div class="page right">
             <span class="flower-corner flower-bottom-right">☕</span>
@@ -608,13 +746,13 @@
               This part of the day felt easy in the best way. No need for anything dramatic — just being there with you already was beautiful enough.
             </p>
             <div class="note-card">
-              I have no pictures during our coffee and cake tho.
+              I have no pictures during our coffee and cake though.
             </div>
             <div class="photo-frame wide flat" style="margin-top: 18px;">
               <img src="images/photo5.jpg" alt="A cozy memory from the coffee date" class="zoomable" />
-              <div class="caption"><strong>A pause I would repeat</strong>We both look preety badass right hehehehehehehehehe.</div>
+              <div class="caption"><strong>A pause I would repeat</strong>We both look pretty badass, right hehehehehehehehehe.</div>
             </div>
-            <div class="page-num">06</div>
+            <div class="page-num"></div>
           </div>
         </div>
 
@@ -622,24 +760,24 @@
           <div class="page left">
             <span class="flower-corner flower-top-left">✨</span>
             <span class="spread-tag">Favorite memory</span>
-            <h2 class="spread-title">A little too beautiful and very unforgettable to be truee</h2>
+            <h2 class="spread-title">A little too beautiful and very unforgettable to be true</h2>
             <p class="spread-text">
-              The piercing part of the day was cool and sick. But the moments i spent here with you in this random park will be forever in my heart.
+              The piercing part of the day was cool and sick. But the moments I spent here with you in this random park will be forever in my heart.
             </p>
             <div class="note-card">
-              I will never forget that talks, the moments and the laughter we shared, and believe it or not i think the swings brought us closer. 
+              I will never forget the talks, the moments and the laughter we shared, and believe it or not, I think the swings brought us closer.
             </div>
-            <div class="page-num">07</div>
+            <div class="page-num"></div>
           </div>
           <div class="page right">
             <div class="photo-frame tall">
-              <img src="images/photo6.jpg" alt="Piercing day memory" class="zoomable" />
+              <img src="images/photo6.jpg" alt="Park memory" class="zoomable" />
               <div class="caption">
                 <strong>The park = instantly iconic</strong>
-                May god keep sending trash men in your life, untill you pick me hehehehehe✨
+                May God keep sending trash men in your life, until you pick me hehehehehe✨
               </div>
             </div>
-            <div class="page-num">08</div>
+            <div class="page-num"></div>
           </div>
         </div>
 
@@ -650,12 +788,12 @@
             <ul class="small-list">
               <li>Your smile and eyes are addictive, I hope you know that.</li>
               <li>The way candid moments always end up meaning the most.</li>
-              <li>I would book all my weekends if it is to be spent with you</li>
+              <li>I would book all my weekends if they were to be spent with you.</li>
             </ul>
             <p class="spread-text" style="margin-top: 10px;">
               Some dates are fun. Some dates stay. This one stayed.
             </p>
-            <div class="page-num">09</div>
+            <div class="page-num"></div>
           </div>
           <div class="page right">
             <span class="flower-corner flower-top-right">🌺</span>
@@ -664,9 +802,9 @@
               <div class="caption"><strong>The memory I would keep closest</strong>This is where the day starts feeling less like a plan and more like something I want again.</div>
             </div>
             <div class="note-card">
-              I hope my dear marti I raise your standards so high that no guy will be able to match it 🌺🌺🌺.
+              I hope, my dear Marti, I raise your standards so high that no guy will be able to match them 🌺🌺🌺.
             </div>
-            <div class="page-num">10</div>
+            <div class="page-num"></div>
           </div>
         </div>
 
@@ -680,7 +818,7 @@
             <p class="spread-text" style="margin-top: 12px;">
               Maybe this is just my way of saying that I loved that day, that I am still replaying it, and that I miss your company more than a normal person probably should.
             </p>
-            <div class="page-num">11</div>
+            <div class="page-num"></div>
           </div>
           <div class="page right">
             <span class="flower-corner flower-bottom-left">💗</span>
@@ -695,14 +833,14 @@
               <span class="chip">romantic archive</span>
               <span class="chip">our Saturday</span>
             </div>
-            <div class="page-num">12</div>
+            <div class="page-num"></div>
           </div>
         </div>
 
         <div class="spread">
           <div class="page left">
             <span class="spread-tag">Momo Chapter</span>
-            <h2 class="spread-title">I Cant believe iam saying this but never in my life i thought momo will be my second favorite thing to stare this moment</h2>
+            <h2 class="spread-title">I can’t believe I am saying this, but never in my life did I think momo would be my second favorite thing to stare at in this moment</h2>
             <p class="spread-text">
               You looked cuter than the momo.
             </p>
@@ -714,14 +852,14 @@
             <div class="book-footer" style="justify-content: flex-start; margin-top: 24px;">
               <button class="action-btn primary" id="heartBtn" type="button">Because I miss you a little too much 💖</button>
             </div>
-            <div class="page-num">13</div>
+            <div class="page-num"></div>
           </div>
           <div class="page right">
             <div class="photo-frame tall flat">
-              <img src="images/photo8.jpg" alt="Final photo together" class="zoomable" />
-              <div class="caption"><strong>MoMo + you = 💖</strong>Still not enough of you for one weekend.</div>
+              <img src="images/photo8.jpg" alt="Final momo memory" class="zoomable" />
+              <div class="caption"><strong>Momo + you = 💖</strong>Still not enough of you for one weekend.</div>
             </div>
-            <div class="page-num">14</div>
+            <div class="page-num"></div>
           </div>
         </div>
 
@@ -732,34 +870,322 @@
             <p class="spread-text">
               Thank you for making one Saturday feel worth turning into a whole little book.
             </p>
-            <div class="page-num">15</div>
+            <div class="page-num"></div>
           </div>
           <div class="page right">
             <span class="flower-corner flower-bottom-right">🌹</span>
             <span class="stamp">Thank you</span>
             <p class="spread-text">
-             I hope you are honestly giving this a chance partner cause trust me there is no one like me. 1 in a billion hahahahahahahahahahahahahahahaha "evil laugh"
+              I hope you are honestly giving this a chance, partner, because trust me there is no one like me. One in a billion hahahahahahahahahahahahahahahaha.
             </p>
             <div class="note-card">
-              Your polish food and cooking class is pending partner
+              Your Polish food and cooking class is pending, partner.
             </div>
             <div class="photo-frame wide flat" style="margin-top: 18px;">
-              <img src="images/photo9.jpg" alt="have a nice weekend partner and miss me a little" class="zoomable" />
-              <div class="caption"><strong>have a nice weekend partner without me and miss me a little</strong>Dobranoc yaar</div>
+              <img src="images/photo9.jpg" alt="Have a nice weekend" class="zoomable" />
+              <div class="caption"><strong>Have a nice weekend, partner, without me — and miss me a little</strong>Dobranoc yaar</div>
             </div>
-            <div class="page-num">06</div>
+            <div class="page-num"></div>
           </div>
         </div>
 
+        <!-- CHAPTER 2 COVER -->
+        <div class="spread">
+          <div class="page left chapter-page">
+            <div class="chapter-number">Chapter 2</div>
+            <h2 class="chapter-title">Delft Chapter</h2>
+            <p class="chapter-text">
+              The next chapter. A new city, new memories, and the pages waiting for the moments you want to keep next.
+            </p>
+            <div class="chapter-decor">🏙️ 🤍 🌷</div>
+            <div class="page-num"></div>
+          </div>
+          <div class="page right cover-right">
+            <div class="photo-frame tall flat" style="max-width: 420px;">
+              <img src="images/photo10.jpg" alt="Delft chapter cover" class="zoomable" />
+              <div class="caption">
+                <strong>Delft memories</strong>
+                Thankyou for making such a long Journey for me.
+              </div>
+            </div>
+            <div class="page-num"></div>
+          </div>
+        </div>
+
+        <!-- DELFT PLACEHOLDER SPREAD 1 -->
+        <div class="spread">
+          <div class="page left">
+            <span class="spread-tag">Flowers</span>
+            <h2 class="spread-title">When we meet again</h2>
+            <p class="spread-text">
+              A sunny day and you by my side i cant ask for anything else.
+            </p>
+            <div class="placeholder-box">
+               with you marti:
+              <br>• I feel more happy
+              <br>• more confortable
+              <br>• more spontaneous
+            </div>
+            <div class="page-num"></div>
+          </div>
+          <div class="page right">
+            <div class="mini-grid">
+              <div class="photo-frame flat">
+                <img src="images/photo11.jpg" alt="flower" class="zoomable" />
+                <div class="caption"><strong>My first flower</strong>Thankyou for being such a sweetheart.</div>
+              </div>
+              <div class="photo-frame slim">
+                <img src="images/photo12.jpg" alt="partner" class="zoomable" />
+                <div class="caption"><strong>My favorite human</strong>Thank you for giving me your time.</div>
+              </div>
+            </div>
+            <div class="page-num"></div>
+          </div>
+        </div>
+
+        <!-- DELFT PLACEHOLDER SPREAD 2 -->
+        <div class="spread">
+          <div class="page left">
+            <span class="stamp">🌷 coffee & matcha</span>
+            <h2 class="spread-title">The journey begins</h2>
+            <ul class="small-list">
+              <li>The coffee was good partner but you were better.</li>
+              <li>Sun was shining and you were smiling.</li>
+              <li>You bring out the happiest side of me i hope i do the same.</li>
+            </ul>
+            <div class="note-card">
+              I hope you know that with me, you never have to worry about anything, I'm your savior partner hehe .
+            </div>
+            <div class="page-num"></div>
+          </div>
+          <div class="page right">
+            <div class="photo-frame wide flat">
+              <img src="images/photo13.jpg" alt="coffee" class="zoomable" />
+              <div class="caption"><strong>We in delft</strong>I am starting to think you like this city too.</div>
+            </div>
+            <div class="page-num"></div>
+          </div>
+        </div>
+
+
+ <div class="spread">
+          <div class="page left">
+            <span class="flower-corner flower-top-left">✨</span>
+            <span class="spread-tag">Biking </span>
+            <h2 class="spread-title">Me + you + bike</h2>
+            <p class="spread-text">
+             Iam so glad that you trusted me with your safety, and trust me you wont find any shoulders ready to take the burden.
+            </p>
+            <div class="note-card">
+              The ride was beautiful, wasn't it, partner?
+            </div>
+            <div class="page-num"></div>
+          </div>
+          <div class="page right">
+            <div class="photo-frame tall">
+              <img src="images/photo14.jpg" alt="biking memory" class="zoomable" />
+              <div class="caption">
+                <strong>Love the way you smile</strong>
+                the happiest man with the prettiest girl✨
+              </div>
+            </div>
+            <div class="page-num"></div>
+          </div>
+        </div>
+
+
+   <div class="spread">
+          <div class="page left">
+            <span class="spread-tag">cherry blossom</span>
+            <h2 class="spread-title"> </h2>
+            <p class="spread-text">
+              Those flowers were the second most beautiful thing that day
+            </p>
+            <div class="mini-grid">
+              <div class="photo-frame flat">
+                <img src="images/photo15.jpg" alt="Cherry" class="zoomable" />
+                <div class="caption"><strong>preety woman</strong>confused whom to look at</div>
+              </div>
+              <div class="photo-frame slim">
+                <img src="images/photo16.jpg" alt="bloosom" class="zoomable" />
+                <div class="caption"><strong>beautiful woman</strong>Definetly you</div>
+              </div>
+            </div>
+            <div class="page-num"></div>
+          </div>
+          <div class="page right">
+            <span class="flower-corner flower-bottom-right">☕</span>
+            <span class="stamp">cherry blossom</span>
+            <p class="spread-text">
+              Iam so glad you liked the pictures, but trust me any picture that you are in is already beautiful.
+            </p>
+            <div class="note-card">
+              It's not the flowers, not the weather, it's you.
+            </div>
+            <div class="photo-frame wide flat" style="margin-top: 18px;">
+              <img src="images/photo17.jpg" alt="beautiful flowers in the background" class="zoomable" />
+              <div class="caption"><strong>A pause I would repeat</strong>How can a person have evrything, great smile great eyes and a great heart.</div>
+            </div>
+            <div class="page-num"></div>
+          </div>
+        </div>
+
+
+ <div class="spread">
+          <div class="page left">
+            <span class="flower-corner flower-top-left">🌹</span>
+            <h2 class="spread-title">The pond never looked this preety</h2>
+            <p class="spread-text">
+              I think every moment i spend with you is instantly unforgetable.
+            </p>
+            <div class="page-num"></div>
+          </div>
+          <div class="page right">
+            <span class="flower-corner flower-bottom-right">🌹</span>
+            <span class="stamp">🌹
+            <p class="spread-text">
+             I think the world was jealous seeing you with me hehehehehhe.
+            </p>
+            <div class="note-card">
+              Thanks for making my Saturday awesome.
+            </div>
+            <div class="photo-frame wide flat" style="margin-top: 18px;">
+              <img src="images/photo18.jpg" alt="what a great photo" class="zoomable" />
+              <div class="caption"><strong>Are you a magician? Because whenever you’re around, everyone else disappears.</strong> too good </div>
+            </div>
+            <div class="page-num"></div>
+          </div>
+        </div>
+
+
+ <div class="spread">
+          <div class="page left">
+            <span class="spread-tag">Pasta Chapter</span>
+            <h2 class="spread-title">I can’t believe I am saying this, but never in my life i thought i could eat pasta with strawberry</h2>
+            <p class="spread-text">
+              Only for you marti only for you.
+            </p>
+            <div class="chips">
+              <span class="chip">🌹 a little romance</span>
+              <span class="chip">☕ a little warmth</span>
+              <span class="chip">✨ a lot of missing you</span>
+            </div>
+            <div class="book-footer" style="justify-content: flex-start; margin-top: 24px;">
+              <button class="action-btn primary" id="heartBtn" type="button">Because I miss you a little too much 💖</button>
+            </div>
+            <div class="page-num"></div>
+          </div>
+          <div class="page right">
+            <div class="photo-frame tall flat">
+              <img src="images/photo19.jpg" alt="pasta with strawberry" class="zoomable" />
+              <div class="caption"><strong>pasta + you = 💖</strong>Still not enough cooking lessons partner.</div>
+            </div>
+            <div class="page-num"></div>
+          </div>
+        </div>
+
+
+ <div class="spread">
+          <div class="page left">
+            <span class="spread-tag">wine and dine</span>
+            <h2 class="spread-title">My favorite part of the day</h2>
+            <p class="spread-text">
+              Listining to you, seeing you smile, watching you laugh wouldnt exchange it for anything in the world.
+            </p>
+            <div class="placeholder-box">
+               How soon the time flew couldnt even tell:
+              <br>• maybe because of the cooking lesson
+              <br>• maybe beacuse of the wine
+              <br>• or maybe because we were truly enjoying it
+            </div>
+            <div class="page-num"></div>
+          </div>
+          <div class="page right">
+            <div class="mini-grid">
+              <div class="photo-frame flat">
+                <img src="images/photo20.jpg" alt="wine and you" class="zoomable" />
+                <div class="caption"><strong> the best</strong>Is this how true happiness feels like</div>
+              </div>
+              <div class="photo-frame slim">
+                <img src="images/photo21.jpg" alt="partner" class="zoomable" />
+                <div class="caption"><strong>us together</strong>I know you loved it too cause no one can fake this smile.</div>
+              </div>
+            </div>
+            <div class="page-num"></div>
+          </div>
+        </div>
+
+
+
+ <div class="spread">
+          <div class="page left">
+            <span class="spread-tag">Little letter</span>
+            <h2 class="spread-title">Already counting the days we meet again</h2>
+            <p class="spread-text">
+              Martyna, I know i have said it like a thousands time, but i really really really mean it you can trust me to never hurt you, never disrespect you, never take you for garnted and never to stop you from doing anything.
+            </p>
+            <p class="spread-text" style="margin-top: 12px;">
+             I might not be the best looking guy by looks that youll ever see but by heart you know it iam the best that you will ever meet.
+            </p>
+            <div class="page-num"></div>
+          </div>
+          <div class="page right">
+            <span class="flower-corner flower-bottom-left">💗</span>
+            <p class="quote">
+              “words cannnot explain but i hope my eyes tell you the truth.”
+            </p>
+            <div class="note-card" style="margin-top: 22px;">
+              I dont know what can i do to prove it, but time will.
+            </div>
+            <div class="chips" style="margin-top: 22px;">
+                         <span class="chip">romantic archive</span>
+              <span class="chip">our Sunday</span>
+            </div>
+            <div class="page-num"></div>
+          </div>
+        </div>
+
+
+<div class="spread">
+          <div class="page left">
+            <span class="flower-corner flower-top-left">🌹</span>
+            <h2 class="spread-title">Hope you wont ghost me after this</h2>
+            <p class="spread-text">
+              I know sometimes i might be too much, but rest assured i never have any bad intension.
+            </p>
+            <div class="page-num"></div>
+          </div>
+          <div class="page right">
+            <span class="flower-corner flower-bottom-right">🌹</span>
+            <span class="stamp">Thank you</span>
+            <p class="spread-text">
+             Seeing you genueinly makes me happy.
+            </p>
+            <div class="note-card">
+              I hope you can tell how special this week was for me and i know it might not be the best for you but deep inside i know youll remember this day too.
+            </div>
+            <div class="photo-frame wide flat" style="margin-top: 18px;">
+              <img src="images/photo22.jpg" alt="come see me already" class="zoomable" />
+              <div class="caption"><strong>what next chapter awaits</strong>only time will tell</div>
+            </div>
+            <div class="page-num"></div>
+          </div>
+        </div>
+
+
+
+
+
+      </div>
 
       <button class="nav-btn" id="nextBtn" type="button" aria-label="Next spread">❯</button>
     </section>
 
     <div class="book-footer">
-      <div class="counter" id="spreadCounter">Spread 1 of 7</div>
+      <div class="counter" id="spreadCounter">Spread 1 of 1</div>
       <button class="action-btn secondary" id="openAllBtn" type="button">Flip through all pages</button>
     </div>
-    <div class="hint">Click any photo to enlarge it. Replace the placeholder image names with your real photos.</div>
+    <div class="hint">Click any photo to enlarge it. Replace the image names with your real photos.</div>
   </main>
 
   <div class="lightbox" id="lightbox" aria-hidden="true">
@@ -779,6 +1205,13 @@
     const heartRain = document.getElementById('heartRain');
 
     let currentSpread = 0;
+
+    function autoNumberPages() {
+      const pageNums = document.querySelectorAll('.page-num');
+      pageNums.forEach((el, index) => {
+        el.textContent = String(index + 1).padStart(2, '0');
+      });
+    }
 
     function renderBook() {
       spreads.forEach((spread, index) => {
@@ -807,6 +1240,7 @@
     document.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowRight') nextBtn.click();
       if (e.key === 'ArrowLeft') prevBtn.click();
+      if (e.key === 'Escape') closeBox();
     });
 
     openAllBtn.addEventListener('click', async () => {
@@ -862,6 +1296,7 @@
       if (e.target === lightbox) closeBox();
     });
 
+    autoNumberPages();
     renderBook();
   </script>
 </body>
