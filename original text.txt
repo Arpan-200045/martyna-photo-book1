@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Memories</title>
+  <style>
+    :root {
+      --bg: #fff7fb;
+      --bg-soft: #fff1f6;
+      --rose: #d96887;
+      --rose-deep: #b84d69;
+      --pink: #f7c8d6;
+      --lily: #fff7ea;
+      --leaf: #728d69;
+      --coffee: #7a5a46;
+      --ink: #4f3945;
+      --white: rgba(255,255,255,0.84);
+      --shadow: 0 18px 40px rgba(138, 92, 112, 0.16);
+      --radius: 28px;
+      --gold: #d8b46b;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: Georgia, "Times New Roman", serif;
+      background:
+        radial-gradient(circle at 0% 10%, rgba(255, 213, 229, 0.8), transparent 30%),
+        radial-gradient(circle at 100% 20%, rgba(255, 242, 202, 0.7), transparent 22%),
+        linear-gradient(180deg, var(--bg), var(--bg-soft));
+      color: var(--ink);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    .bg-decor {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .floating {
+      position: absolute;
+      opacity: 0.12;
+      animation: floatUp linear infinite;
+    }
+
+    .petal {
+      width: 28px;
+      height: 28px;
+      background: radial-gradient(circle at 35% 30%, #ffdfea, #d96887 72%);
+      border-radius: 62% 38% 67% 33% / 42% 57% 43% 58%;
+    }
+
+    .bean {
+      width: 20px;
+      height: 30px;
+      background: linear-gradient(180deg, #9d765e, #6f4a39);
+      border-radius: 50%;
+    }
+
+    .bean::after {
+      content: "";
+      position: absolute;
+      left: 50%; top: 4px; bottom: 4px;
+      width: 2px;
+      transform: translateX(-50%);
+      background: rgba(255,255,255,0.22);
+      border-radius: 999px;
+    }
+
+    .sparkle {
+      width: 10px;
+      height: 10px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 0 0 14px rgba(255,255,255,0.9);
+    }
+
+    @keyframes floatUp {
+      from { transform: translateY(108vh) rotate(0deg); }
+      to { transform: translateY(-18vh) rotate(360deg); }
+    }
+
+    .app {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 14px 34px;
+    }
+
+    .top-title {
+      text-align: center;
+      margin-bottom: 18px;
+      width: min(980px, 100%);
+    }
+
+    .eyebrow {
+      display: inline-block;
+      background: rgba(217,104,135,0.12);
+      color: var(--rose-deep);
+      border: 1px solid rgba(217,104,135,0.12);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 0.92rem;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 3.8rem);
+      line-height: 1.08;
+    }
+
+    .accent { color: var(--rose-deep); font-style: italic; }
+
+    .subtitle {
+      max-width: 760px;
+      margin: 14px auto 0;
+      line-height: 1.7;
+      font-size: clamp(1rem, 1.8vw, 1.1rem);
+    }
+
+    .book-shell {
+      width: min(1180px, 100%);
+      display: grid;
+      grid-template-columns: 84px minmax(0, 1fr) 84px;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .nav-btn {
+      border: none;
+      background: rgba(255,255,255,0.92);
+      color: var(--coffee);
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      font-size: 1.7rem;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+      justify-self: center;
+      z-index: 5;
+    }
+
+    .nav-btn:hover { transform: translateY(-2px); }
+    .nav-btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
+
+    .book {
+      position: relative;
+      width: 100%;
+    }
+
+    .spread {
+      display: none;
+      background: linear-gradient(180deg, rgba(255,255,255,0.78), rgba(255,248,251,0.84));
+      border: 1px solid rgba(217,104,135,0.12);
+      border-radius: 32px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      min-height: 700px;
+      animation: fadeIn 0.35s ease;
+    }
+
+    .spread.active { display: grid; grid-template-columns: 1fr 1fr; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .page {
+      position: relative;
+      padding: 34px 30px 46px;
+      min-height: 700px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,249,252,0.78)),
+        repeating-linear-gradient(180deg, transparent, transparent 31px, rgba(217,104,135,0.04) 32px);
+    }
+
+    .page + .page {
+      border-left: 1px solid rgba(122,90,70,0.12);
+    }
+
+    .page-num {
+      position: absolute;
+      bottom: 12px;
+      color: rgba(79,57,69,0.7);
+      font-size: 0.95rem;
+    }
+
+    .page.left .page-num { left: 22px; }
+    .page.right .page-num { right: 22px; }
+
+    .spread-tag, .stamp {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(217,104,135,0.1);
+      color: var(--rose-deep);
+      font-size: 0.9rem;
+      margin-bottom: 14px;
+    }
+
+    .spread-title {
+      font-size: clamp(1.7rem, 2.8vw, 2.9rem);
+      margin: 0 0 14px;
+      line-height: 1.06;
+      max-width: 10ch;
+    }
+
+    .spread-text {
+      line-height: 1.78;
+      font-size: 1.02rem;
+      margin: 0;
+      max-width: 34ch;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .chip {
+      border-radius: 999px;
+      background: rgba(122,90,70,0.1);
+      color: var(--coffee);
+      padding: 10px 14px;
+      font-size: 0.93rem;
+      border: 1px solid rgba(122,90,70,0.12);
+    }
+
+    .photo-frame {
+      background: linear-gradient(180deg, #fffdfd, #fff4f8);
+      border: 1px solid rgba(217,104,135,0.12);
+      border-radius: 26px;
+      padding: 14px;
+      box-shadow: 0 14px 30px rgba(120, 78, 96, 0.12);
+      width: 100%;
+    }
+
+    .photo-frame.tall { transform: rotate(1.2deg); }
+    .photo-frame.slim { transform: rotate(-1deg); }
+    .photo-frame.flat { transform: none; }
+
+    .photo-frame img {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      display: block;
+      border-radius: 18px;
+      background: #f3e7ec;
+      cursor: pointer;
+    }
+
+    .wide img { aspect-ratio: 16 / 10; }
+
+    .caption {
+      margin-top: 10px;
+      line-height: 1.65;
+      font-size: 0.97rem;
+    }
+
+    .caption strong {
+      display: block;
+      color: var(--rose-deep);
+      margin-bottom: 4px;
+    }
+
+    .flower-corner {
+      position: absolute;
+      font-size: clamp(1.7rem, 3vw, 2.6rem);
+      filter: drop-shadow(0 8px 10px rgba(0,0,0,0.08));
+    }
+
+    .flower-top-left { top: 10px; left: 12px; }
+    .flower-top-right { top: 10px; right: 14px; }
+    .flower-bottom-left { bottom: 20px; left: 10px; }
+    .flower-bottom-right { bottom: 20px; right: 12px; }
+
+    .note-card {
+      background: #fff9ea;
+      border-radius: 20px;
+      padding: 16px;
+      line-height: 1.68;
+      box-shadow: 0 12px 24px rgba(124, 103, 62, 0.1);
+      transform: rotate(-1deg);
+      margin-top: 16px;
+      font-size: 0.97rem;
+      max-width: 36ch;
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 12px;
+    }
+
+    .quote {
+      font-size: 1.08rem;
+      line-height: 1.8;
+      font-style: italic;
+      color: var(--coffee);
+      margin: 8px 0 0;
+      max-width: 30ch;
+    }
+
+    .small-list {
+      margin: 14px 0 0;
+      padding-left: 18px;
+      line-height: 1.8;
+      max-width: 32ch;
+    }
+
+    .book-footer {
+      margin-top: 18px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .action-btn {
+      border: none;
+      cursor: pointer;
+      border-radius: 999px;
+      min-height: 50px;
+      padding: 0 18px;
+      font-size: 0.98rem;
+      transition: transform 0.2s ease;
+    }
+
+    .action-btn:hover { transform: translateY(-2px); }
+
+    .primary {
+      background: linear-gradient(135deg, var(--rose), #eba4b6);
+      color: white;
+      box-shadow: 0 12px 24px rgba(217,104,135,0.2);
+    }
+
+    .secondary {
+      background: rgba(255,255,255,0.92);
+      color: var(--coffee);
+      border: 1px solid rgba(122,90,70,0.12);
+    }
+
+    .counter {
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(217,104,135,0.12);
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-size: 0.95rem;
+    }
+
+    .hint {
+      margin-top: 12px;
+      text-align: center;
+      color: rgba(79,57,69,0.72);
+      font-size: 0.92rem;
+    }
+
+    .heart-rain {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 40;
+    }
+
+    .heart {
+      position: absolute;
+      top: -20px;
+      font-size: 22px;
+      animation: fall 3.6s linear forwards;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(53, 34, 44, 0.84);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 100;
+    }
+
+    .lightbox.open { display: flex; }
+
+    .lightbox-card {
+      width: min(920px, 100%);
+      background: #fff9fc;
+      border-radius: 28px;
+      padding: 16px;
+      position: relative;
+      box-shadow: 0 20px 44px rgba(0,0,0,0.28);
+    }
+
+    .lightbox-card img {
+      width: 100%;
+      max-height: 78vh;
+      object-fit: contain;
+      border-radius: 20px;
+      background: #f6e8ee;
+      display: block;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      background: rgba(255,255,255,0.95);
+      font-size: 1.2rem;
+    }
+
+    .cover-page {
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.55), transparent 30%),
+        linear-gradient(160deg, rgba(255,245,249,0.95), rgba(255,239,245,0.9));
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .cover-title {
+      font-size: clamp(2.6rem, 5vw, 4.5rem);
+      line-height: 1.02;
+      margin: 0 0 14px;
+      color: var(--rose-deep);
+      max-width: 8ch;
+    }
+
+    .cover-subtitle {
+      font-size: 1.08rem;
+      line-height: 1.8;
+      max-width: 34ch;
+      margin: 0;
+    }
+
+    .cover-right {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background:
+        linear-gradient(180deg, rgba(255,252,253,0.9), rgba(255,243,248,0.92));
+    }
+
+    .chapter-page {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      background:
+        radial-gradient(circle at top right, rgba(255, 221, 233, 0.55), transparent 35%),
+        linear-gradient(180deg, rgba(255,250,252,0.92), rgba(255,242,247,0.9));
+    }
+
+    .chapter-number {
+      font-size: 0.95rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--coffee);
+      margin-bottom: 14px;
+    }
+
+    .chapter-title {
+      font-size: clamp(2.4rem, 4.5vw, 4rem);
+      line-height: 1;
+      margin: 0 0 16px;
+      color: var(--rose-deep);
+    }
+
+    .chapter-text {
+      font-size: 1.04rem;
+      line-height: 1.8;
+      max-width: 34ch;
+      margin: 0;
+    }
+
+    .chapter-decor {
+      font-size: clamp(3rem, 6vw, 5rem);
+      opacity: 0.85;
+      margin-top: 18px;
+    }
+
+    .placeholder-box {
+      border: 2px dashed rgba(184, 77, 105, 0.25);
+      border-radius: 24px;
+      padding: 22px;
+      background: rgba(255,255,255,0.55);
+      margin-top: 18px;
+      line-height: 1.8;
+      color: rgba(79,57,69,0.82);
+    }
+
+    @media (max-width: 980px) {
+      .book-shell {
+        grid-template-columns: 1fr;
+      }
+      .nav-btn {
+        position: fixed;
+        bottom: 18px;
+        z-index: 120;
+        background: rgba(255,255,255,0.96);
+      }
+      #prevBtn { left: 14px; }
+      #nextBtn { right: 14px; }
+      .book-footer { padding-bottom: 64px; }
+      .spread.active {
+        grid-template-columns: 1fr;
+      }
+      .page, .spread { min-height: auto; }
+      .page + .page { border-left: 0; border-top: 1px solid rgba(122,90,70,0.12); }
+    }
+
+    @media (max-width: 640px) {
+      .app { padding: 18px 10px 26px; }
+      h1 { font-size: clamp(1.8rem, 10vw, 2.7rem); }
+      .subtitle { font-size: 0.98rem; }
+      .page {
+        padding: 24px 18px 40px;
+      }
+      .spread-title,
+      .chapter-title,
+      .cover-title {
+        font-size: clamp(1.8rem, 8vw, 2.5rem);
+        max-width: 100%;
+      }
+      .spread-text,
+      .caption,
+      .note-card,
+      .small-list,
+      .quote,
+      .chapter-text,
+      .cover-subtitle {
+        font-size: 0.95rem;
+        line-height: 1.65;
+        max-width: 100%;
+      }
+      .mini-grid { grid-template-columns: 1fr; }
+      .chips { gap: 8px; }
+      .chip { font-size: 0.85rem; padding: 8px 12px; }
+      .nav-btn { width: 56px; height: 56px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-decor" aria-hidden="true">
+    <div class="floating petal" style="left: 4%; animation-duration: 18s; animation-delay: 0s;"></div>
+    <div class="floating petal" style="left: 16%; animation-duration: 24s; animation-delay: 5s;"></div>
+    <div class="floating petal" style="left: 27%; animation-duration: 20s; animation-delay: 2s;"></div>
+    <div class="floating petal" style="left: 41%; animation-duration: 22s; animation-delay: 6s;"></div>
+    <div class="floating petal" style="left: 56%; animation-duration: 19s; animation-delay: 3s;"></div>
+    <div class="floating petal" style="left: 71%; animation-duration: 23s; animation-delay: 1s;"></div>
+    <div class="floating petal" style="left: 89%; animation-duration: 20s; animation-delay: 4s;"></div>
+
+    <div class="floating bean" style="left: 11%; animation-duration: 26s; animation-delay: 2s;"></div>
+    <div class="floating bean" style="left: 62%; animation-duration: 24s; animation-delay: 7s;"></div>
+    <div class="floating bean" style="left: 82%; animation-duration: 27s; animation-delay: 3s;"></div>
+
+    <div class="floating sparkle" style="left: 23%; animation-duration: 15s; animation-delay: 0s;"></div>
+    <div class="floating sparkle" style="left: 68%; animation-duration: 18s; animation-delay: 3s;"></div>
+    <div class="floating sparkle" style="left: 94%; animation-duration: 17s; animation-delay: 1s;"></div>
+  </div>
+
+  <div class="heart-rain" id="heartRain"></div>
+
+  <main class="app">
+    <div class="top-title">
+      <div class="eyebrow">A page-by-page little love book ✨</div>
+      <h1><span class="accent">Our Memories</span></h1>
+      <p class="subtitle">
+        A scrapbook of chapters, cities, and moments worth keeping.
+      </p>
+    </div>
+
+    <section class="book-shell">
+      <button class="nav-btn" id="prevBtn" type="button" aria-label="Previous spread">❮</button>
+
+      <div class="book">
+
+        <!-- MAIN COVER PAGE -->
+        <div class="spread active">
+          <div class="page left cover-page">
+            <span class="spread-tag">Memory Book</span>
+            <h2 class="cover-title">Our Memories</h2>
+            <p class="cover-subtitle">
+              A little book made of moments, cities, smiles, and the days that stayed longer in the heart than they were supposed to.
+            </p>
+            <div class="chips">
+              <span class="chip">📖 personal archive</span>
+              <span class="chip">🤍 chapters together</span>
+              <span class="chip">📍 Rotterdam & Delft</span>
+            </div>
+            <div class="page-num"></div>
+          </div>
+          <div class="page right cover-right">
+            <div class="photo-frame tall flat" style="max-width: 420px;">
+              <img src="images/photo00.jpg" alt="Main cover memory" class="zoomable" />
+              <div class="caption">
+                <strong>TSomething forever</strong>
+                A teeny tiny place to keep the memories that felt too good to disappear forever.
+              </div>
+            </div>
+            <div class="page-num"></div>
+          </div>
+        </div>
+
+        <!-- CHAPTER 1 COVER -->
+        <div class="spread">
+          <div class="page left chapter-page">
+            <div class="chapter-number">Chapter 1</div>
+            <h2 class="chapter-title">Rotterdam Chapter</h2>
+            <p class="chapter-text">
+              The chapter of coffee, piercing, park moments, laughter, momo, and the kind of Saturday that turns into something worth revisiting.
+            </p>
+            <div class="chapter-decor">🌹 ☕ ✨</div>
+            <div class="page-num"></div>
+          </div>
+          <div class="page right cover-right">
+            <div class="photo-frame tall flat" style="max-width: 420px;">
+              <img src="images/photo0.jpg" alt="Rotterdam chapter cover" class="zoomable" />
+              <div class="caption">
+                <strong>Rotterdam memories</strong>
+                A city chapter that became more about you than the city itself.
+              </div>
+            </div>
+            <div class="page-num"></div>
+          </div>
+        </div>
+
+        <!-- ROTTERDAM CONTENT STARTS -->
+        <div class="spread">
+          <div class="page left">
+            <span class="flower-corner flower-top-left">🌹</span>
+            <span class="spread-tag">Cover page</span>
+            <h2 class="spread-title">For the weekend that feels too quiet</h2>
+            <p class="spread-text">
+              Since we are not meeting this weekend, I wanted to keep Saturday alive a little longer. So I turned it into a book — not just photos, but a place for the feeling of Rotterdam, the coffee, the piercing, and you.
+            </p>
+            <div class="chips">
+              <span class="chip">📍 Rotterdam</span>
+              <span class="chip">☕ Coffee date</span>
+              <span class="chip">✨ Piercing day</span>
+              <span class="chip">🌸 Roses & lilies</span>
+            </div>
+            <div class="page-num"></div>
+          </div>
+          <div class="page right">
+            <div class="photo-frame tall">
+              <img src="images/cover.jpg" alt="Cover photo of us together" class="zoomable" />
+              <div class="caption">
+                <strong>Our Saturday deserved its own little world</strong>
+                This is where I keep replaying the day, because some memories are too warm to leave behind that quickly.
+              </div>
+            </div>
+            <div class="page-num"></div>
+          </div>
+        </div>
+
+        <div class="spread">
+          <div class="page left">
+            <span class="stamp">🌷 First memory</span>
+            <h2 class="spread-title">Rotterdam looked better with you in it</h2>
+            <p class="spread-text">
+              Maybe it was the city, maybe the mood, maybe the fact that I was with you — but the whole day felt softer from the moment it started.
+            </p>
+            <div class="mini-grid">
+              <div class="photo-frame slim">
+                <img src="images/photo1.jpg" alt="Us in Rotterdam" class="zoomable" />
+                <div class="caption"><strong>Arrival</strong>The part where the day already started feeling special.</div>
+              </div>
+              <div class="photo-frame flat">
+                <img src="images/photo2.jpg" alt="Walking together in Rotterdam" class="zoomable" />
+                <div class="caption"><strong>City mood</strong>Somehow even the streets felt more romantic.</div>
+              </div>
+            </div>
+            <div class="page-num"></div>
+          </div>
+          <div class="page right">
+            <span class="flower-corner flower-top-right">🤍</span>
+            <span class="spread-tag">Little details</span>
+            <p class="quote">“Some people turn a normal day into a memory.”</p>
+            <ul class="small-list">
+              <li>From the moment I saw you, I did not care about the city but only you.</li>
+              <li>The tiny moments that now feel bigger than the planned ones.</li>
+              <li>The beginning of me already knowing I would miss this later.</li>
+            </ul>
+            <div class="note-card">
+              My first visit to Rotterdam was special thanks to you, partner 🤍🤍🤍.
+            </div>
+            <div class="page-num"></div>
+          </div>
+        </div>
+
+        <div class="spread">
+          <div class="page left">
+            <span class="spread-tag">Piercing</span>
+            <h2 class="spread-title">Then Marti decides to be a little more spontaneous</h2>
+            <p class="spread-text">
+              Dates are supposed to be simple, but somehow sitting there with you waiting to get pierced was just beautiful. More than the piercing, I liked the company.
+            </p>
+            <div class="mini-grid">
+              <div class="photo-frame flat">
+                <img src="images/photo3.jpg" alt="Before the piercing" class="zoomable" />
+                <div class="caption"><strong>Nervous Martyna</strong>You looked pretty before.</div>
+              </div>
+              <div class="photo-frame slim">
+                <img src="images/photo4.jpg" alt="After the piercing" class="zoomable" />
+                <div class="caption"><strong>Badass Martyna</strong>Now you look pretty badass.</div>
+              </div>
+            </div>
+            <div class="page-num"></div>
+          </div>
+          <div class="page right">
+            <span class="flower-corner flower-bottom-right">☕</span>
+            <span class="stamp">☕ Piercing</span>
+            <p class="spread-text">
+              This part of the day felt easy in the best way. No need for anything dramatic — just being there with you already was beautiful enough.
+            </p>
+            <div class="note-card">
+              I have no pictures during our coffee and cake though.
+            </div>
+            <div class="photo-frame wide flat" style="margin-top: 18px;">
+              <img src="images/photo5.jpg" alt="A cozy memory from the coffee date" class="zoomable" />
+              <div class="caption"><strong>A pause I would repeat</strong>We both look pretty badass, right hehehehehehehehehe.</div>
+            </div>
+            <div class="page-num"></div>
+          </div>
+        </div>
+
+        <div class="spread">
+          <div class="page left">
+            <span class="flower-corner flower-top-left">✨</span>
+            <span class="spread-tag">Favorite memory</span>
+            <h2 class="spread-title">A little too beautiful and very unforgettable to be true</h2>
+            <p class="spread-text">
+              The piercing part of the day was cool and sick. But the moments I spent here with you in this random park will be forever in my heart.
+            </p>
+            <div class="note-card">
+              I will never forget the talks, the moments and the laughter we shared, and believe it or not, I think the swings brought us closer.
+            </div>
+            <div class="page-num"></div>
+          </div>
+          <div class="page right">
+            <div class="photo-frame tall">
+              <img src="images/photo6.jpg" alt="Park memory" class="zoomable" />
+              <div class="caption">
+                <strong>The park = instantly iconic</strong>
+                May God keep sending trash men in your life, until you pick me hehehehehe✨
+              </div>
+            </div>
+            <div class="page-num"></div>
+          </div>
+        </div>
+
+        <div class="spread">
+          <div class="page left">
+            <span class="stamp">🌹 Favorite chapter</span>
+            <h2 class="spread-title">The tiny things I still notice after</h2>
+            <ul class="small-list">
+              <li>Your smile and eyes are addictive, I hope you know that.</li>
+              <li>The way candid moments always end up meaning the most.</li>
+              <li>I would book all my weekends if they were to be spent with you.</li>
+            </ul>
+            <p class="spread-text" style="margin-top: 10px;">
+              Some dates are fun. Some dates stay. This one stayed.
+            </p>
+            <div class="page-num"></div>
+          </div>
+          <div class="page right">
+            <span class="flower-corner flower-top-right">🌺</span>
+            <div class="photo-frame wide flat">
+              <img src="images/photo7.jpg" alt="A favorite memory together" class="zoomable" />
+              <div class="caption"><strong>The memory I would keep closest</strong>This is where the day starts feeling less like a plan and more like something I want again.</div>
+            </div>
+            <div class="note-card">
+              I hope, my dear Marti, I raise your standards so high that no guy will be able to match them 🌺🌺🌺.
+            </div>
+            <div class="page-num"></div>
+          </div>
+        </div>
+
+        <div class="spread">
+          <div class="page left">
+            <span class="spread-tag">Little letter</span>
+            <h2 class="spread-title">Something I wanted this book to say for me</h2>
+            <p class="spread-text">
+              Martyna, I know we are not meeting this weekend, so I made this little photo book to keep Saturday close. I wanted the flowers, the coffee mood, the city, and every small moment with you to stay alive a little longer.
+            </p>
+            <p class="spread-text" style="margin-top: 12px;">
+              Maybe this is just my way of saying that I loved that day, that I am still replaying it, and that I miss your company more than a normal person probably should.
+            </p>
+            <div class="page-num"></div>
+          </div>
+          <div class="page right">
+            <span class="flower-corner flower-bottom-left">💗</span>
+            <p class="quote">
+              “So this is my soft proof that even when we are apart, you are still the nicest part of my thoughts.”
+            </p>
+            <div class="note-card" style="margin-top: 22px;">
+              Miss you a little too much.
+            </div>
+            <div class="chips" style="margin-top: 22px;">
+              <span class="chip">miss you energy</span>
+              <span class="chip">romantic archive</span>
+              <span class="chip">our Saturday</span>
+            </div>
+            <div class="page-num"></div>
+          </div>
+        </div>
+
+        <div class="spread">
+          <div class="page left">
+            <span class="spread-tag">Momo Chapter</span>
+            <h2 class="spread-title">I can’t believe I am saying this, but never in my life did I think momo would be my second favorite thing to stare at in this moment</h2>
+            <p class="spread-text">
+              You looked cuter than the momo.
+            </p>
+            <div class="chips">
+              <span class="chip">🌹 a little romance</span>
+              <span class="chip">☕ a little warmth</span>
+              <span class="chip">✨ a lot of missing you</span>
+            </div>
+            <div class="book-footer" style="justify-content: flex-start; margin-top: 24px;">
+              <button class="action-btn primary" id="heartBtn" type="button">Because I miss you a little too much 💖</button>
+            </div>
+            <div class="page-num"></div>
+          </div>
+          <div class="page right">
+            <div class="photo-frame tall flat">
+              <img src="images/photo8.jpg" alt="Final momo memory" class="zoomable" />
+              <div class="caption"><strong>Momo + you = 💖</strong>Still not enough of you for one weekend.</div>
+            </div>
+            <div class="page-num"></div>
+          </div>
+        </div>
+
+        <div class="spread">
+          <div class="page left">
+            <span class="flower-corner flower-top-left">🌹</span>
+            <h2 class="spread-title">The part where I hope you smile.</h2>
+            <p class="spread-text">
+              Thank you for making one Saturday feel worth turning into a whole little book.
+            </p>
+            <div class="page-num"></div>
+          </div>
+          <div class="page right">
+            <span class="flower-corner flower-bottom-right">🌹</span>
+            <span class="stamp">Thank you</span>
+            <p class="spread-text">
+              I hope you are honestly giving this a chance, partner, because trust me there is no one like me. One in a billion hahahahahahahahahahahahahahahaha.
+            </p>
+            <div class="note-card">
+              Your Polish food and cooking class is pending, partner.
+            </div>
+            <div class="photo-frame wide flat" style="margin-top: 18px;">
+              <img src="images/photo9.jpg" alt="Have a nice weekend" class="zoomable" />
+              <div class="caption"><strong>Have a nice weekend, partner, without me — and miss me a little</strong>Dobranoc yaar</div>
+            </div>
+            <div class="page-num"></div>
+          </div>
+        </div>
+
+        <!-- CHAPTER 2 COVER -->
+        <div class="spread">
+          <div class="page left chapter-page">
+            <div class="chapter-number">Chapter 2</div>
+            <h2 class="chapter-title">Delft Chapter</h2>
+            <p class="chapter-text">
+              The next chapter. A new city, new memories, and the pages waiting for the moments you want to keep next.
+            </p>
+            <div class="chapter-decor">🏙️ 🤍 🌷</div>
+            <div class="page-num"></div>
+          </div>
+          <div class="page right cover-right">
+            <div class="photo-frame tall flat" style="max-width: 420px;">
+              <img src="images/photo10.jpg" alt="Delft chapter cover" class="zoomable" />
+              <div class="caption">
+                <strong>Delft memories</strong>
+                Thankyou for making such a long Journey for me.
+              </div>
+            </div>
+            <div class="page-num"></div>
+          </div>
+        </div>
+
+        <!-- DELFT PLACEHOLDER SPREAD 1 -->
+        <div class="spread">
+          <div class="page left">
+            <span class="spread-tag">Flowers</span>
+            <h2 class="spread-title">When we meet again</h2>
+            <p class="spread-text">
+              A sunny day and you by my side i cant ask for anything else.
+            </p>
+            <div class="placeholder-box">
+               with you marti:
+              <br>• I feel more happy
+              <br>• more confortable
+              <br>• more spontaneous
+            </div>
+            <div class="page-num"></div>
+          </div>
+          <div class="page right">
+            <div class="mini-grid">
+              <div class="photo-frame flat">
+                <img src="images/photo11.jpg" alt="flower" class="zoomable" />
+                <div class="caption"><strong>My first flower</strong>Thankyou for being such a sweetheart.</div>
+              </div>
+              <div class="photo-frame slim">
+                <img src="images/photo12.jpg" alt="partner" class="zoomable" />
+                <div class="caption"><strong>My favorite human</strong>Thank you for giving me your time.</div>
+              </div>
+            </div>
+            <div class="page-num"></div>
+          </div>
+        </div>
+
+        <!-- DELFT PLACEHOLDER SPREAD 2 -->
+        <div class="spread">
+          <div class="page left">
+            <span class="stamp">🌷 coffee & matcha</span>
+            <h2 class="spread-title">The journey begins</h2>
+            <ul class="small-list">
+              <li>The coffee was good partner but you were better.</li>
+              <li>Sun was shining and you were smiling.</li>
+              <li>You bring out the happiest side of me i hope i do the same.</li>
+            </ul>
+            <div class="note-card">
+              I hope you know that with me, you never have to worry about anything, I'm your savior partner hehe .
+            </div>
+            <div class="page-num"></div>
+          </div>
+          <div class="page right">
+            <div class="photo-frame wide flat">
+              <img src="images/photo13.jpg" alt="coffee" class="zoomable" />
+              <div class="caption"><strong>We in delft</strong>I am starting to think you like this city too.</div>
+            </div>
+            <div class="page-num"></div>
+          </div>
+        </div>
+
+
+ <div class="spread">
+          <div class="page left">
+            <span class="flower-corner flower-top-left">✨</span>
+            <span class="spread-tag">Biking </span>
+            <h2 class="spread-title">Me + you + bike</h2>
+            <p class="spread-text">
+             Iam so glad that you trusted me with your safety, and trust me you wont find any shoulders ready to take the burden.
+            </p>
+            <div class="note-card">
+              The ride was beautiful, wasn't it, partner?
+            </div>
+            <div class="page-num"></div>
+          </div>
+          <div class="page right">
+            <div class="photo-frame tall">
+              <img src="images/photo14.jpg" alt="biking memory" class="zoomable" />
+              <div class="caption">
+                <strong>Love the way you smile</strong>
+                the happiest man with the prettiest girl✨
+              </div>
+            </div>
+            <div class="page-num"></div>
+          </div>
+        </div>
+
+
+   <div class="spread">
+          <div class="page left">
+            <span class="spread-tag">cherry blossom</span>
+            <h2 class="spread-title"> </h2>
+            <p class="spread-text">
+              Those flowers were the second most beautiful thing that day
+            </p>
+            <div class="mini-grid">
+              <div class="photo-frame flat">
+                <img src="images/photo15.jpg" alt="Cherry" class="zoomable" />
+                <div class="caption"><strong>preety woman</strong>confused whom to look at</div>
+              </div>
+              <div class="photo-frame slim">
+                <img src="images/photo16.jpg" alt="bloosom" class="zoomable" />
+                <div class="caption"><strong>beautiful woman</strong>Definetly you</div>
+              </div>
+            </div>
+            <div class="page-num"></div>
+          </div>
+          <div class="page right">
+            <span class="flower-corner flower-bottom-right">☕</span>
+            <span class="stamp">cherry blossom</span>
+            <p class="spread-text">
+              Iam so glad you liked the pictures, but trust me any picture that you are in is already beautiful.
+            </p>
+            <div class="note-card">
+              It's not the flowers, not the weather, it's you.
+            </div>
+            <div class="photo-frame wide flat" style="margin-top: 18px;">
+              <img src="images/photo17.jpg" alt="beautiful flowers in the background" class="zoomable" />
+              <div class="caption"><strong>A pause I would repeat</strong>How can a person have evrything, great smile great eyes and a great heart.</div>
+            </div>
+            <div class="page-num"></div>
+          </div>
+        </div>
+
+
+ <div class="spread">
+          <div class="page left">
+            <span class="flower-corner flower-top-left">🌹</span>
+            <h2 class="spread-title">The pond never looked this preety</h2>
+            <p class="spread-text">
+              I think every moment i spend with you is instantly unforgetable.
+            </p>
+            <div class="page-num"></div>
+          </div>
+          <div class="page right">
+            <span class="flower-corner flower-bottom-right">🌹</span>
+            <span class="stamp">🌹
+            <p class="spread-text">
+             I think the world was jealous seeing you with me hehehehehhe.
+            </p>
+            <div class="note-card">
+              Thanks for making my Saturday awesome.
+            </div>
+            <div class="photo-frame wide flat" style="margin-top: 18px;">
+              <img src="images/photo18.jpg" alt="what a great photo" class="zoomable" />
+              <div class="caption"><strong>Are you a magician? Because whenever you’re around, everyone else disappears.</strong> too good </div>
+            </div>
+            <div class="page-num"></div>
+          </div>
+        </div>
+
+
+ <div class="spread">
+          <div class="page left">
+            <span class="spread-tag">Pasta Chapter</span>
+            <h2 class="spread-title">I can’t believe I am saying this, but never in my life i thought i could eat pasta with strawberry</h2>
+            <p class="spread-text">
+              Only for you marti only for you.
+            </p>
+            <div class="chips">
+              <span class="chip">🌹 a little romance</span>
+              <span class="chip">☕ a little warmth</span>
+              <span class="chip">✨ a lot of missing you</span>
+            </div>
+            <div class="book-footer" style="justify-content: flex-start; margin-top: 24px;">
+              <button class="action-btn primary" id="heartBtn" type="button">Because I miss you a little too much 💖</button>
+            </div>
+            <div class="page-num"></div>
+          </div>
+          <div class="page right">
+            <div class="photo-frame tall flat">
+              <img src="images/photo19.jpg" alt="pasta with strawberry" class="zoomable" />
+              <div class="caption"><strong>pasta + you = 💖</strong>Still not enough cooking lessons partner.</div>
+            </div>
+            <div class="page-num"></div>
+          </div>
+        </div>
+
+
+ <div class="spread">
+          <div class="page left">
+            <span class="spread-tag">wine and dine</span>
+            <h2 class="spread-title">My favorite part of the day</h2>
+            <p class="spread-text">
+              Listining to you, seeing you smile, watching you laugh wouldnt exchange it for anything in the world.
+            </p>
+            <div class="placeholder-box">
+               How soon the time flew couldnt even tell:
+              <br>• maybe because of the cooking lesson
+              <br>• maybe beacuse of the wine
+              <br>• or maybe because we were truly enjoying it
+            </div>
+            <div class="page-num"></div>
+          </div>
+          <div class="page right">
+            <div class="mini-grid">
+              <div class="photo-frame flat">
+                <img src="images/photo20.jpg" alt="wine and you" class="zoomable" />
+                <div class="caption"><strong> the best</strong>Is this how true happiness feels like</div>
+              </div>
+              <div class="photo-frame slim">
+                <img src="images/photo21.jpg" alt="partner" class="zoomable" />
+                <div class="caption"><strong>us together</strong>I know you loved it too cause no one can fake this smile.</div>
+              </div>
+            </div>
+            <div class="page-num"></div>
+          </div>
+        </div>
+
+
+
+ <div class="spread">
+          <div class="page left">
+            <span class="spread-tag">Little letter</span>
+            <h2 class="spread-title">Already counting the days we meet again</h2>
+            <p class="spread-text">
+              Martyna, I know i have said it like a thousands time, but i really really really mean it you can trust me to never hurt you, never disrespect you, never take you for garnted and never to stop you from doing anything.
+            </p>
+            <p class="spread-text" style="margin-top: 12px;">
+             I might not be the best looking guy by looks that youll ever see but by heart you know it iam the best that you will ever meet.
+            </p>
+            <div class="page-num"></div>
+          </div>
+          <div class="page right">
+            <span class="flower-corner flower-bottom-left">💗</span>
+            <p class="quote">
+              “words cannnot explain but i hope my eyes tell you the truth.”
+            </p>
+            <div class="note-card" style="margin-top: 22px;">
+              I dont know what can i do to prove it, but time will.
+            </div>
+            <div class="chips" style="margin-top: 22px;">
+                         <span class="chip">romantic archive</span>
+              <span class="chip">our Sunday</span>
+            </div>
+            <div class="page-num"></div>
+          </div>
+        </div>
+
+
+<div class="spread">
+          <div class="page left">
+            <span class="flower-corner flower-top-left">🌹</span>
+            <h2 class="spread-title">Hope you wont ghost me after this</h2>
+            <p class="spread-text">
+              I know sometimes i might be too much, but rest assured i never have any bad intension.
+            </p>
+            <div class="page-num"></div>
+          </div>
+          <div class="page right">
+            <span class="flower-corner flower-bottom-right">🌹</span>
+            <span class="stamp">Thank you</span>
+            <p class="spread-text">
+             Seeing you genueinly makes me happy.
+            </p>
+            <div class="note-card">
+              I hope you can tell how special this week was for me and i know it might not be the best for you but deep inside i know youll remember this day too.
+            </div>
+            <div class="photo-frame wide flat" style="margin-top: 18px;">
+              <img src="images/photo22.jpg" alt="come see me already" class="zoomable" />
+              <div class="caption"><strong>what next chapter awaits</strong>only time will tell</div>
+            </div>
+            <div class="page-num"></div>
+          </div>
+        </div>
+
+
+
+
+
+      </div>
+
+      <button class="nav-btn" id="nextBtn" type="button" aria-label="Next spread">❯</button>
+    </section>
+
+    <div class="book-footer">
+      <div class="counter" id="spreadCounter">Spread 1 of 1</div>
+      <button class="action-btn secondary" id="openAllBtn" type="button">Flip through all pages</button>
+    </div>
+    <div class="hint">Click any photo to enlarge it. Replace the image names with your real photos.</div>
+  </main>
+
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <div class="lightbox-card">
+      <button class="close-btn" id="closeLightbox" aria-label="Close image">✕</button>
+      <img id="lightboxImg" src="" alt="Expanded photo" />
+    </div>
+  </div>
+
+  <script>
+    const spreads = [...document.querySelectorAll('.spread')];
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const spreadCounter = document.getElementById('spreadCounter');
+    const openAllBtn = document.getElementById('openAllBtn');
+    const heartBtn = document.getElementById('heartBtn');
+    const heartRain = document.getElementById('heartRain');
+
+    let currentSpread = 0;
+
+    function autoNumberPages() {
+      const pageNums = document.querySelectorAll('.page-num');
+      pageNums.forEach((el, index) => {
+        el.textContent = String(index + 1).padStart(2, '0');
+      });
+    }
+
+    function renderBook() {
+      spreads.forEach((spread, index) => {
+        spread.classList.toggle('active', index === currentSpread);
+      });
+      spreadCounter.textContent = `Spread ${currentSpread + 1} of ${spreads.length}`;
+      prevBtn.disabled = currentSpread === 0;
+      nextBtn.disabled = currentSpread === spreads.length - 1;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    prevBtn.addEventListener('click', () => {
+      if (currentSpread > 0) {
+        currentSpread -= 1;
+        renderBook();
+      }
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (currentSpread < spreads.length - 1) {
+        currentSpread += 1;
+        renderBook();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') nextBtn.click();
+      if (e.key === 'ArrowLeft') prevBtn.click();
+      if (e.key === 'Escape') closeBox();
+    });
+
+    openAllBtn.addEventListener('click', async () => {
+      currentSpread = 0;
+      renderBook();
+      for (let i = 1; i < spreads.length; i++) {
+        await new Promise(resolve => setTimeout(resolve, 700));
+        currentSpread = i;
+        renderBook();
+      }
+    });
+
+    function createHeartBurst(count = 28) {
+      const items = ['💗', '💖', '💘', '🌹', '✨', '🤍'];
+      for (let i = 0; i < count; i++) {
+        const heart = document.createElement('span');
+        heart.className = 'heart';
+        heart.textContent = items[Math.floor(Math.random() * items.length)];
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDuration = (2.8 + Math.random() * 1.6) + 's';
+        heart.style.fontSize = (18 + Math.random() * 18) + 'px';
+        heartRain.appendChild(heart);
+        setTimeout(() => heart.remove(), 4200);
+      }
+    }
+
+    if (heartBtn) {
+      heartBtn.addEventListener('click', () => createHeartBurst(42));
+    }
+
+    const zoomables = document.querySelectorAll('.zoomable');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const closeLightbox = document.getElementById('closeLightbox');
+
+    zoomables.forEach(img => {
+      img.addEventListener('click', () => {
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt;
+        lightbox.classList.add('open');
+        lightbox.setAttribute('aria-hidden', 'false');
+      });
+    });
+
+    function closeBox() {
+      lightbox.classList.remove('open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      lightboxImg.src = '';
+    }
+
+    closeLightbox.addEventListener('click', closeBox);
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeBox();
+    });
+
+    autoNumberPages();
+    renderBook();
+  </script>
+</body>
+</html>
